@@ -1,0 +1,35 @@
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript"></script>
+<form id="askforstock" method="post">
+<div class="Stocks">
+<label for="data[Stock][0]">Stock 1</label>
+<input type="text" name="data[Stock][0]" id="data[Stock][0]" />
+</div>
+<button id="add-Stock">Add address</button>
+<div id="chart_div"></div>
+</form>
+</html>
+
+<script>
+$(document).ready(function(){
+    $("#add-Stock").click(function(e){
+        e.preventDefault();
+        var numberOfStockes = $("#askforstock").find("input[name^='data[Stock]']").length;
+        var label = '<label for="data[Stock][' + numberOfStockes + ']">Stock ' + (numberOfStockes + 1) + '</label> ';
+        var input = '<input type="text" name="data[Stock][' + numberOfStockes + ']" id="data[Stock][' + numberOfStockes + ']" />';
+        var removeButton = '<button class="remove-Stock">Remove</button>';
+        var html = "<div class='Stock'>" + label + input + removeButton + "</div>";
+        $("#askforstock").find("#add-Stock").before(html);
+    });
+});
+$(document).on("click", ".remove-Stock",function(e){
+    e.preventDefault();
+    $(this).parents(".Stock").remove();
+    //update labels
+    $("#askforstock").find("label[for^='data[Stock]']").each(function(){
+        $(this).html("Stock " + ($(this).parents('.Stock').index() + 1));
+    });
+});
+</script>
